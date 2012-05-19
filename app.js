@@ -2,9 +2,7 @@
 /**
  * Module dependencies.
  */
-
-var express = require('express')
-  , routes = require('./routes')
+ var express = require('express')
   , less = require('less-middleware')
   , everyauth = require('everyauth')
   , User = require('./models/user.js');
@@ -52,8 +50,8 @@ app.configure('production', function() {
 });
 
 // Routes
-
-app.get('/', routes.index);
+app.get('/', require('./routes').index);
+app.post('/stash', require('./routes/stash.js').stash);
 
 app.listen(3000, function() {
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

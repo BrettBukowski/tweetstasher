@@ -6,7 +6,18 @@
     <link rel='stylesheet' href='/stylesheets/style.css'>
   </head>
   <body>
-    <h1><%= title %></h1>
+    <% if (typeof user !== 'undefined') { %>
+    <header>
+      <h1>TweetStasher</h1>
+      <div id="user">
+        <a href="https://twitter.com/<%= user.screenName %>"><%= user.name %></a> <img src='<%= user.profilePic %>' alt='profile pic'/>
+      </div>
+    </header>
+    <% } else {%>
+      <h1>TweetStasher</h1>      
+    <% } %>
+    <section class="center">
     <%- body %>
+    </section>
   </body>
 </html>
