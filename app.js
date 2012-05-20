@@ -52,6 +52,7 @@ app.configure('production', function() {
 
 // Routes
 app.get('/', routes.index);
+app.get('/tweets', routes.tweets);
 app.post('/stash', routes.stash);
 
 app.listen(3000, function() {

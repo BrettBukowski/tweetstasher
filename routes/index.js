@@ -18,17 +18,21 @@ module.exports = {
   },
 
   /*
-   * GET '/' home page.
+   * GET '/tweets' user's saved tweets.
    */
   tweets: function(req, res) {
-    
+    if (!req.user) return res.send('Unauthorized', 401);
+
+    Tweet.all(req.user, function(tweets) {
+      res.json(tweets);
+    });
   },
 
   /*
    * POST '/stash' stash a new draft.
    */
   stash: function(req, res) {
-    if (!req.user) return res.header('401 Unauthorized');
+    if (!req.user) return res.send('Unauthorized', 401);
 
     var text = req.body.tweet;
     if (text) {

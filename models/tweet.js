@@ -30,11 +30,21 @@ Tweet.new = function(props, user) {
 };
 Tweet.get = function(query) {
   if (query === 'all') {
-    
+
   }
   else if (query && typeof query === 'object') {
     
   }
+};
+Tweet.all = function(user, callback) {
+  db.view('tweet/forUser', { key: user._id }, function(error, docs) {
+    if (error) {
+      console.log('Error for tweet/forUser: ' + error);
+    }
+    callback(docs.map(function(row) {
+      return row
+    }));
+  });
 };
 Tweet.prototype = {
   save: function() {
