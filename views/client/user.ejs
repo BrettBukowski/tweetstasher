@@ -1,0 +1,14 @@
+<div class="tweet">
+  <form method="post" action="/stash">
+    <span class='created'><%= created %></span>
+    <a href='#' class='destroy'>Delete</a>
+    <textarea name="tweet" rows="3" cols="40" placeholder="Draft a tweet"><%= text %></textarea>
+    <div class="container">
+      <div class="counter">140</div>
+      <div class="buttons">
+        <button class="stash">Stash it</button>
+        <button disabled class="post">Tweet now</button>
+      </div>
+    </div>
+  </form>
+</div>

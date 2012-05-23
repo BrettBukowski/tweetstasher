@@ -2,7 +2,8 @@
 /*
  * Route handlers
  */
-var Tweet = require('../models/tweet.js');
+var Tweet = require('../models/tweet.js'),
+    fs = require('fs');
 
 module.exports = {
   /*
@@ -10,10 +11,14 @@ module.exports = {
    */
   index: function(req, res) {
     if (req.user) {
-      res.render('user', { user: req.user, title: '' });
+      res.render('user', {
+        layout: 'userLayout',
+        user: req.user,
+        view: fs.readFileSync(__dirname + '/../views/client/user.ejs')
+      });
     }
     else {
-      res.render('index', { title: 'TweetStasher' });
+      res.render('index');
     }
   },
 
@@ -29,14 +34,14 @@ module.exports = {
   },
 
   /*
-   * POST '/stash' stash a new draft.
+   * POST '/tweets' stash a new draft.
    */
   stash: function(req, res) {
     if (!req.user) return res.send('Unauthorized', 401);
 
     var text = req.body.tweet;
     if (text) {
-      Tweet.new({text: text}, req.user);
+      new Tweet({text: text, user: req.user._id}).save();
     }
 
     res.redirect('/');

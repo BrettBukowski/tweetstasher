@@ -31,7 +31,7 @@ var app = module.exports = express.createServer();
 app.configure(function() {
   app.use(express.bodyParser());
   app.use(express.cookieParser());
-  app.use(express.session({ secret: config.session }));
+  app.use(express.session({ secret: config.session, cookie: { maxAge: 60 * 60 * 1000 }}));
   app.use(everyauth.middleware());
   app.use(app.router);
   app.set('views', __dirname + '/views');
@@ -53,7 +53,7 @@ app.configure('production', function() {
 // Routes
 app.get('/', routes.index);
 app.get('/tweets', routes.tweets);
-app.post('/stash', routes.stash);
+app.post('/tweets', routes.stash);
 
 app.listen(3000, function() {
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
