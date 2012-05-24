@@ -6,18 +6,16 @@ var Model = require('./base.js');
 
 function getUserFromSession(req, userId) {
   var session = req.session;
-  if (session.user && session.user.id === userId) return session.user;
+  if (session.user && session.user._id === userId) return session.user;
 }
 
 function storeUserInSession(req, user) {
   req.session.user = user;
 }
 
-var User = Model.extend({}, {
-  id: 'User',
-
+var User = Model.extend({ id: 'User' }, {
   findOrCreate: function(userInfo, accessToken, accessTokenSecret, promise) {
-    User.db().view('user/twitterId', { key: userInfo.id_str }, function(error, docs) {
+    (new User).view('twitterId', userInfo.id_str, function(error, docs) {
       if (error) {
         console.log(error);
         return promise.fail(error);
@@ -45,15 +43,11 @@ var User = Model.extend({}, {
       return callback(null, user);
     }
 
-    User.db().view('user/userId', { key: userId }, function(error, doc) {
+    (new User).view('userId', userId, function(error, doc) {
       var user = (doc.length === 1) ? doc[0].value : {};
       storeUserInSession(req, user);
       callback(error, user);
     });
-  },
-  db: function() {
-    return Model.db(User.id);
   }
 });
-// console.log(User);
 module.exports = User;

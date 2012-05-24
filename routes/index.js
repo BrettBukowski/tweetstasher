@@ -4,6 +4,10 @@
  */
 var Tweet = require('../models/tweet.js'),
     fs = require('fs');
+    
+    function respond(type, request) {
+      return request.headers.accept.indexOf(type) > -1;
+    }
 
 module.exports = {
   /*
@@ -39,11 +43,19 @@ module.exports = {
   stash: function(req, res) {
     if (!req.user) return res.send('Unauthorized', 401);
 
-    var text = req.body.tweet;
+    var text = req.body.text;
     if (text) {
-      new Tweet({text: text, user: req.user._id}).save();
+      console.log('saving ');
+      console.log({text: text, user: req.user._id});
+      new Tweet({text: text, user: req.user._id}).save(function(resp) {
+        console.log(resp);
+        if (respond('json', req)) {
+          res.json(resp);
+        }
+        else {
+          res.redirect('/');
+        }
+      });
     }
-
-    res.redirect('/');
   }
 };

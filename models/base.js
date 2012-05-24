@@ -62,13 +62,16 @@ function getDBConnection(modelName) {
 }
 
 function callable(callback, result) {
+  console.log('callback');
   return typeof callback === 'function' && callback(result);
 }
 
 
 // BASE MODEL
 
-var Model = extend({  
+var Model = extend({
+  id: 'Model',
+  
   constructor: function(props) {
     this.props = mix({}, props);    
   },
@@ -76,18 +79,20 @@ var Model = extend({
   save: function(callback, promise) {
     if (!this.props._id) {
       // Timestamp the creation
-      this.props.created || this.props.created = +new Date();
+      this.props.created || (this.props.created = +new Date());
 
-      Model.db().save(this.props, function(error, result) {
+      this.db().save(this.props, function(error, result) {
+        console.log('here');
         if (error) {
           console.log('Error creating: ' + error);
           if (promise) return promise.fail(error);
         }
-        
+
         callable(callback, result) || (promise && promise.fulfill(this.props));
       });
     }
     else {
+      console.log('existing');
       Model.db().merge(this.props._id, this.props, function(error, result) {
         if (error) {
           console.log('Error saving: ' + error);
@@ -96,13 +101,16 @@ var Model = extend({
         callable(callback, result);
       });
     }
-    
+
     return this;
-  }
-}, {
-  id: 'Model',
-  db: function(name) {
-    return getDBConnection(name || Model.id);
+  },
+  
+  db: function() {
+    return this.dbConnection || (this.dbConnection = getDBConnection(this.id));
+  },
+  
+  view: function(name, key, callback) {
+    this.db().view(this.id.toLowerCase() + '/' + name, { key: key }, callback);
   }
 });
 Model.extend = extend;
