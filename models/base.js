@@ -80,19 +80,19 @@ var Model = extend({
     if (!this.props._id) {
       // Timestamp the creation
       this.props.created || (this.props.created = +new Date());
-
-      this.db().save(this.props, function(error, result) {
-        console.log('here');
+      
+      var saved = this.props;
+      this.db().save(saved, function(error, result) {
         if (error) {
           console.log('Error creating: ' + error);
           if (promise) return promise.fail(error);
         }
 
-        callable(callback, result) || (promise && promise.fulfill(this.props));
+        saved._id = result.id;
+        callable(callback, saved) || (promise && promise.fulfill(saved));
       });
     }
     else {
-      console.log('existing');
       Model.db().merge(this.props._id, this.props, function(error, result) {
         if (error) {
           console.log('Error saving: ' + error);
