@@ -5,9 +5,9 @@
 var Tweet = require('../models/tweet.js'),
     fs = require('fs');
     
-    function respond(type, request) {
-      return request.headers.accept.indexOf(type) > -1;
-    }
+function respond(type, request) {
+  return request.headers.accept.indexOf(type) > -1;
+}
 
 module.exports = {
   /*
@@ -30,8 +30,6 @@ module.exports = {
    * GET '/tweets' user's saved tweets.
    */
   tweets: function(req, res) {
-    if (!req.user) return res.send('Unauthorized', 401);
-
     Tweet.all(req.user, function(tweets) {
       res.json(tweets);
     });
@@ -41,8 +39,6 @@ module.exports = {
    * POST '/tweets' stash a new draft.
    */
   stash: function(req, res) {
-    if (!req.user) return res.send('Unauthorized', 401);
-
     var text = req.body.text;
     if (text) {
       console.log('saving ');
@@ -57,5 +53,15 @@ module.exports = {
         }
       });
     }
-  }
+  },
+  
+  /*
+   * DELETE '/tweets/:id' delete a saved draft.
+   */
+   del: function(req, res) {
+     Tweet.find(req.params.id, function(tweet) {
+       tweet.destroy();
+       res.send('OK', 200);
+     });
+   }
 };

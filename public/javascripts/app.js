@@ -1,6 +1,6 @@
 $(function() {
   var Tweet = Backbone.Model.extend({
-    url: '/tweets',
+    urlRoot: '/tweets',
     idAttribute: '_id',
     
     defaults: {
@@ -33,7 +33,7 @@ $(function() {
     
     events: {
       'click .stash':     'save',
-      'click .destroy':   'remove',
+      'click .destroy':   'kill',
       'click .post':      'post',
       'change textarea':  'updateCounter'
     },
@@ -64,9 +64,9 @@ $(function() {
       
     },
 
-    remove: function(e) {
+    kill: function(e) {
       e.preventDefault();
-      this.model.clear();
+      this.model.destroy();
     }
   });
   

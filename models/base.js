@@ -73,7 +73,7 @@ var Model = extend({
   id: 'Model',
   
   constructor: function(props) {
-    this.props = mix({}, props);    
+    this.props = mix({}, props);
   },
 
   save: function(callback, promise) {
@@ -103,6 +103,15 @@ var Model = extend({
     }
 
     return this;
+  },
+  
+  destroy: function(callback) {
+    this.db().remove(this.props._id, function(error, result) {
+      if (error) {
+        console.log(error);
+      }
+      callable(callback, result);
+    });
   },
   
   db: function() {

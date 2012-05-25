@@ -18,6 +18,14 @@ var Tweet = Model.extend({ id: 'Tweet' }, {
         );
       }
     });
+  },
+  find: function(id, callback) {
+    (new Tweet).db().get(id, function(error, result) {
+      if (error) {
+        console.log(error);
+      }
+      callback(new Tweet(result));
+    });
   }
 });
 
