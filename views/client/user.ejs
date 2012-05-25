@@ -8,8 +8,13 @@
     <div class="container">
       <div class="counter">140</div>
       <div class="buttons">
+      <% if (created) { %>
         <button class="stash">Stash it</button>
-        <button disabled class="post">Tweet now</button>
+        <button class="post">Tweet now</button>
+      <% } else { %>
+        <button disabled class="stash">Stash it</button>
+        <button disabled class="post">Tweet now</button>        
+      <% } %>
       </div>
     </div>
   </form>

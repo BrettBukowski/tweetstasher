@@ -13,6 +13,7 @@ $(function() {
     },
     
     validate: function(attrs) {
+      attrs.text = $.trim(attrs.text);
       if (!attrs.text.length) {
         return "There's nothing to stash!";
       }
@@ -54,6 +55,11 @@ $(function() {
     updateCounter: function() {
       var count = 140 - this.input.val().length;
       this.$('.counter')[(count < 0) ? 'addClass' : 'removeClass']('error').html(count);
+      this.toggleButtons(count < 140);
+    },
+    
+    toggleButtons: function(on) {
+      this.$('button')[(on) ? 'removeAttr' : 'attr']('disabled', 'disabled');
     },
     
     save: function(e) {
