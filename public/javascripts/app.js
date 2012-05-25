@@ -35,7 +35,7 @@ $(function() {
       'click .stash':     'save',
       'click .destroy':   'kill',
       'click .post':      'post',
-      'change textarea':  'updateCounter'
+      'keyup textarea':  'updateCounter'
     },
 
     initialize: function() {
@@ -52,7 +52,8 @@ $(function() {
     },
 
     updateCounter: function() {
-      this.$('.counter').html(this.input.val().length);
+      var count = 140 - this.input.val().length;
+      this.$('.counter')[(count < 0) ? 'addClass' : 'removeClass']('error').html(count);
     },
     
     save: function(e) {
