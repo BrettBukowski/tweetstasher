@@ -75,9 +75,31 @@ var Model = extend({
   constructor: function(props) {
     this.props = mix({}, props);
   },
+  
+  set: function(key, val) {
+    if (typeof key === 'string' && typeof val !== 'undefined') {
+      // Single key-value being set
+      this.props[key] = val;
+    }
+    else if (key && typeof key === 'object' && !val) {
+      this.props = mix(this.props, key);
+    }
+    
+    return this;
+  },
+  
+  get: function(key) {
+    if (typeof key === 'undefined') {
+      return this.props;
+    }
+    
+    return this.props[key];
+  },
 
   save: function(callback, promise) {
     if (!this.props._id) {
+      // New
+      
       // Timestamp the creation
       this.props.created || (this.props.created = +new Date());
       
@@ -93,7 +115,8 @@ var Model = extend({
       });
     }
     else {
-      Model.db().merge(this.props._id, this.props, function(error, result) {
+      // Update existing
+      this.db().merge(this.props._id, this.props, function(error, result) {
         if (error) {
           console.log('Error saving: ' + error);
         }

@@ -80,11 +80,9 @@ $(function() {
   var AppView = Backbone.View.extend({
     el: $('#app'),
     initialize: function() {
-      _.bindAll(this, 'add', 'created', 'addAll', 'changed', 'sync');
+      _.bindAll(this, 'add', 'addAll');
       stashed.bind('add', this.add);
       stashed.bind('reset', this.addAll);
-      stashed.bind('change', this.changed);
-      stashed.bind('sync', this.sync);
 
       // Display an initial new tweet
       this.addNewEmpty();
@@ -101,18 +99,10 @@ $(function() {
       this.empty.on('sync', this.addNewEmpty, this);
       this.add(this.empty, null, null, true);
     },
-    sync: function(a, b) {
-      debugger;
-    },
-    changed: function(a, b) {
-      debugger;
-    },
-    created: function(a, b) {
-      debugger;
-    },
     add: function(model, index, all, prepend) {
       var view = new TweetView({model: model});
       this.$el[(prepend) ? 'prepend' : 'append'](view.render().el);
+      view.updateCounter();
     },
     addAll: function() {
       stashed.each(this.add);

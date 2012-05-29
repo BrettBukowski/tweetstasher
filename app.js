@@ -60,6 +60,7 @@ app.get('/', routes.index);
 app.get('/tweets', requireUser, routes.tweets);
 app.post('/tweets', requireUser, routes.stash);
 app.del('/tweets/:id', requireUser, routes.del);
+app.put('/tweets/:id', requireUser, routes.put);
 
 app.listen(3000, function() {
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

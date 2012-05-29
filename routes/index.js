@@ -44,7 +44,6 @@ module.exports = {
       console.log('saving ');
       console.log({text: text, user: req.user._id});
       new Tweet({text: text, user: req.user._id}).save(function(resp) {
-        console.log(resp);
         if (respond('json', req)) {
           res.json(resp);
         }
@@ -63,5 +62,16 @@ module.exports = {
        tweet.destroy();
        res.send('OK', 200);
      });
-   }
+   },
+   
+   /*
+    * PUT '/tweets/:id' update existing draft.
+    */
+    put: function(req, res) {
+      console.log(req.body);
+      Tweet.find(req.params.id, function(tweet) {
+        tweet.set('text', req.body.text).save();
+        res.send('OK', 200);
+      });
+    }
 };
