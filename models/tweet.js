@@ -2,9 +2,48 @@
  * Tweet
  */
 
-var Model = require('./base.js');
+var Model = require('./base.js')
+  , Oauth = require('oauth-client')
+  , keys = require('../config/keys.js');
 
-var Tweet = Model.extend({ id: 'Tweet' }, {
+var urls = {
+    base: 'api.twitter.com'
+  , publish: '/1/statuses/update.json'
+};
+
+var Tweet = Model.extend({
+  id: 'Tweet',
+
+  publish: function(user, callback) {
+    var consumer = Oauth.createConsumer(keys.twitter.consumerKey, keys.twitter.consumerSecret)
+      , token = Oauth.createToken(user.accessToken, user.accessTokenSecret)
+      , signature = Oauth.createHmac(consumer, token)
+      , body = { status: this.get('text') }
+      , request = {
+            host: urls.base
+          , path: urls.publish
+          , https: true
+          , method: 'POST'
+          , body: body
+          , oauth_signature: signature
+        }
+      , req = Oauth.request(request, function(response) {
+          var responseData = '';
+
+          response.setEncoding('utf8');
+          response.on('data', function(chunk) {
+            responseData += chunk;
+          });
+          response.on('end', function() {
+            if (callback) {
+              callback(JSON.parse(responseData));
+            }
+          });
+      });
+
+    req.write(body);
+    req.end();
+  }}, {
   all: function(user, callback) {
     (new Tweet).view('forUser', user._id, function(error, docs) {
       if (error) {

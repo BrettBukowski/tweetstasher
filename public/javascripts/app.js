@@ -67,8 +67,14 @@ $(function() {
       this.model.save({ text: this.input.val() });
     },
     
-    post: function() {
-      
+    post: function(e) {
+      e.preventDefault();
+      this.model.on('sync', function(model, response) {
+        if (response.id) {
+          this.model.destroy();
+        }
+      }, this);
+      this.model.save('text', this.input.val(), { url: this.model.urlRoot + '/publish/' + this.model.id });
     },
 
     kill: function(e) {

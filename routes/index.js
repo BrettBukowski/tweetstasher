@@ -57,21 +57,31 @@ module.exports = {
   /*
    * DELETE '/tweets/:id' delete a saved draft.
    */
-   del: function(req, res) {
-     Tweet.find(req.params.id, function(tweet) {
-       tweet.destroy();
-       res.send('OK', 200);
-     });
-   },
+  del: function(req, res) {
+    Tweet.find(req.params.id, function(tweet) {
+      tweet.destroy();
+      res.send('OK', 200);
+    });
+  },
    
-   /*
-    * PUT '/tweets/:id' update existing draft.
-    */
-    put: function(req, res) {
-      console.log(req.body);
-      Tweet.find(req.params.id, function(tweet) {
-        tweet.set('text', req.body.text).save();
-        res.send('OK', 200);
+  /*
+   * PUT '/tweets/:id' update existing draft.
+   */
+  put: function(req, res) {
+    Tweet.find(req.params.id, function(tweet) {
+      tweet.set('text', req.body.text).save();
+      res.send('OK', 200);
+    });
+  },
+  
+  /*
+   * PUT '/tweets/publish/:id' post to Twitter.
+   */
+  publish: function(req, res) {
+    Tweet.find(req.params.id, function(tweet) {
+      tweet.set('text', req.body.text).publish(req.user, function(response) {
+        res.json(response);
       });
-    }
+    });
+  }  
 };
