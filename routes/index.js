@@ -4,7 +4,7 @@
  */
 var Tweet = require('../models/tweet.js'),
     fs = require('fs');
-    
+
 function respond(type, request) {
   return request.headers.accept.indexOf(type) > -1;
 }
@@ -52,8 +52,11 @@ module.exports = {
         }
       });
     }
+    else {
+      res.send('Bad Request', 400);
+    }
   },
-  
+
   /*
    * DELETE '/tweets/:id' delete a saved draft.
    */
@@ -63,7 +66,7 @@ module.exports = {
       res.send('OK', 200);
     });
   },
-   
+
   /*
    * PUT '/tweets/:id' update existing draft.
    */
@@ -73,9 +76,9 @@ module.exports = {
       res.send('OK', 200);
     });
   },
-  
+
   /*
-   * PUT '/tweets/publish/:id' post to Twitter.
+   * POST '/tweets/publish/:id' post an existing draft to Twitter.
    */
   publish: function(req, res) {
     Tweet.find(req.params.id, function(tweet) {
@@ -83,5 +86,20 @@ module.exports = {
         res.json(response);
       });
     });
-  }  
+  },
+
+   /*
+    * POST '/tweets/instaPublish' post a new draft to Twitter.
+    */
+  instaPublish: function(req, res) {
+    var text = req.body.text;
+    if (text) {
+      new Tweet({text: text}).publish(req.user, function(response) {
+        res.json(response);
+      });
+    }
+    else {
+      res.send('Bad Request', 400);
+    }
+  }
 };
