@@ -65,9 +65,17 @@ $(function() {
     },
 
     updateCounter: function() {
-      var count = 140 - this.input.val().length;
+      var text = this.input.val(),
+          count = TweetView.charLimit - text.length;
+
+      var urls = (text.match(TweetView.url) || []).concat(text.match(TweetView.pseudo) || []);
+      _.each(urls, function(url) {
+        count += url.length;
+        count -= TweetView.linkLength;
+      });
+
       this.$('.counter')[(count < 0) ? 'addClass' : 'removeClass']('error').html(count);
-      this.toggleButtons(count < 140);
+      this.toggleButtons(count < TweetView.charLimit);
     },
 
     toggleButtons: function(on) {
@@ -92,6 +100,13 @@ $(function() {
       e.preventDefault();
       this.model.destroy();
     }
+  }, {
+    // http:// https://
+    url: /\b(?:https?):\/\/[a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|]/gim,
+    // www.
+    pseudo: /(^|[^\/])(www\.[\S]+(\b|$))/gim,
+    charLimit: 140,
+    linkLength: 20
   });
 
   var AppView = Backbone.View.extend({
