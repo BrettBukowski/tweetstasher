@@ -1,4 +1,34 @@
 $(function() {
+
+  var dateParts = [
+      { unit: 60, label: '%d minutes ago' }
+    , { unit: 60, label: '%d hours ago' }
+    , { unit: 24, label: '%d days ago' }
+    , { unit:  7, label: '%d weeks ago' }
+    , { unit:  4, label: '%d months ago' }
+  ];
+
+  function relativeize(time) {
+    if (_.isNumber(time)) {
+      time = new Date(time);
+    }
+
+    var diff = (new Date() - time) / 1000;
+
+    if (diff < 60) return 'moments ago';
+
+    var relative = _.find(dateParts, function(item, index, list) {
+      diff /= item.unit;
+      if (list[index + 1] && diff < list[index + 1].unit) {
+        return true;
+      }
+    });
+
+    return (relative)
+      ? relative.label.replace('%d', Math.round(diff))
+      : time.toLocaleDateString();
+  }
+
   var Tweet = Backbone.Model.extend({
     urlRoot: '/tweets',
     idAttribute: '_id',
@@ -59,7 +89,10 @@ $(function() {
     },
 
     render: function() {
-      $(this.el).html(this.template(this.model.toJSON()));
+      var viewData = this.model.toJSON();
+      viewData.created = viewData.created ? relativeize(viewData.created) : '';
+
+      $(this.el).html(this.template(viewData));
       this.input = this.$('textarea');
       return this;
     },
