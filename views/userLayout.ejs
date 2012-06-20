@@ -3,20 +3,32 @@
   <head>
     <meta charset="utf8">
     <title>TweetStasher</title>
+    <link href="http://fonts.googleapis.com/css?family=Paytone+One|Signika" rel="stylesheet" type="text/css">
     <link rel='stylesheet' href='/stylesheets/style.css'>
+    <meta id="viewport" name="viewport" content="initial-scale=1.0,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
   </head>
   <body class='user'>
     <header>
       <h1>TweetStasher</h1>
       <div id="user">
-        <a href="https://twitter.com/<%= user.screenName %>"><%= user.name %></a> <img src='<%= user.profilePic %>' alt='profile pic'/>
+        <ul>
+          <li tabindex='0'>
+            <span class="greeting">Hello,</span>
+            <a class='profile' href="https://twitter.com/<%= user.screenName %>"><%= user.name %></a> <img src='<%= user.profilePic %>' alt='profile pic'/>
+            <ul class='options'>
+              <li><a href='/signout'>Sign out</a></li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </header>
+    <%- partial('partials/clouds') %>
     <section class="center">
     <%- body %>
     </section>
+    <%- partial('partials/footer') %>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
     <script src="/javascripts/backbone.js"></script>
     <script src="/javascripts/app.js"></script>
   </body>

@@ -2,7 +2,7 @@
   <form method="post" action="/tweets">
     <span class='created'><%= created %></span>
     <% if (created) { %>
-    <a href='#' class='destroy'>Delete</a>
+    <a href='#' class='destroy icon-trash' title='Delete'></a>
     <% } %>
     <textarea name="tweet" rows="3" cols="40" placeholder="Draft a tweet"><%= text %></textarea>
     <div class="container">
@@ -13,7 +13,7 @@
         <button class="post">Tweet now</button>
       <% } else { %>
         <button disabled class="stash">Stash it</button>
-        <button disabled class="post">Tweet now</button>        
+        <button disabled class="post">Tweet now</button>
       <% } %>
       </div>
     </div>

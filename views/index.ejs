@@ -1,5 +1,19 @@
-<p>Save draft tweets for later</p>
+<%- partial('partials/clouds') %>
 
-<form action="/auth/twitter">
-  <input type="submit" id="start" value="Start Stashing!">
-</form>
+<header>
+  <h1>TweetStasher</h1>
+
+  <div class='go'>
+    <p class="copy">Save off tweets <i>now</i> to post <i>later</i></p>
+    <form action="/auth/twitter">
+      <input type="submit" id="start" value="Start Stashing!">
+    </form>
+  </div>
+</header>
+
+<section class='feature-clouds'>
+  <div>Got something to say but it's not the right time.</div>
+  <div>Stash it!</div>
+  <div>Access stashed tweets on your computer or phone.</div>
+  <div>Tweet!</div>
+</section>
