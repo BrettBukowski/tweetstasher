@@ -101,5 +101,13 @@ module.exports = {
     else {
       res.send('Bad Request', 400);
     }
+  },
+
+  /*
+   * GET '/signout' kills the current user's session.
+   */
+  signout: function(req, res) {
+    req.session.destroy();
+    res.redirect('/');
   }
 };

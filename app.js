@@ -63,6 +63,7 @@ app.del('/tweets/:id', requireUser, routes.del);
 app.put('/tweets/:id', requireUser, routes.put);
 app.post('/tweets/publish/:id', requireUser, routes.publish);
 app.post('/tweets/instaPublish', requireUser, routes.instaPublish);
+app.get('/signout', requireUser, routes.signout);
 
 app.listen(3000, function() {
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
