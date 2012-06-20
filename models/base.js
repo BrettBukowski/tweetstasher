@@ -15,35 +15,35 @@ function mix(receiver, provider) {
 
   return receiver;
 }
- 
+
 function empty() {}
 
 // Creates subclasses, setting up the prototype chain.
-// Basically Backbone's inherits helper. 
+// Basically Backbone's inherits helper.
 function inherit(parent, props, statics) {
   var child = (props && props.hasOwnProperty('constructor'))
     ? props.constructor
     : function() { parent.apply(this, arguments); };
-     
+
   // Inherit static properies
   child = mix(child, parent);
-   
+
   // Make child's proto chain inherit from
   // parent's without calling parent's constructor
   empty.prototype = parent.prototype;
   child.prototype = new empty();
-   
+
   if (props) {
     child.prototype = mix(child.prototype, props);
   }
   if (statics) {
     child = mix(child, statics);
   }
-   
+
   child.prototype.constructor = child;
-   
+
   child.__super__ = parent.prototype;
-   
+
   return child;
 }
 
@@ -71,11 +71,11 @@ function callable(callback, result) {
 
 var Model = extend({
   id: 'Model',
-  
+
   constructor: function(props) {
     this.props = mix({}, props);
   },
-  
+
   set: function(key, val) {
     if (typeof key === 'string' && typeof val !== 'undefined') {
       // Single key-value being set
@@ -84,25 +84,26 @@ var Model = extend({
     else if (key && typeof key === 'object' && !val) {
       this.props = mix(this.props, key);
     }
-    
+
     return this;
   },
-  
+
   get: function(key) {
     if (typeof key === 'undefined') {
       return this.props;
     }
-    
+
     return this.props[key];
   },
 
   save: function(callback, promise) {
     if (!this.props._id) {
       // New
-      
+
       // Timestamp the creation
-      this.props.created || (this.props.created = +new Date());
-      
+      this.props.created = +new Date();
+      console.log('now:' + new Date().getMonth() + ' ' + new Date().getDate());
+      console.log('timestamp:' + this.props.created);
       var saved = this.props;
       this.db().save(saved, function(error, result) {
         if (error) {
@@ -120,14 +121,14 @@ var Model = extend({
         if (error) {
           console.log('Error saving: ' + error);
         }
-        
+
         callable(callback, result);
       });
     }
 
     return this;
   },
-  
+
   destroy: function(callback) {
     this.db().remove(this.props._id, function(error, result) {
       if (error) {
@@ -136,11 +137,11 @@ var Model = extend({
       callable(callback, result);
     });
   },
-  
+
   db: function() {
     return this.dbConnection || (this.dbConnection = getDBConnection(this.id));
   },
-  
+
   view: function(name, key, callback) {
     this.db().view(this.id.toLowerCase() + '/' + name, { key: key }, callback);
   }
