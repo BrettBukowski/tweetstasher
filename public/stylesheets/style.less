@@ -7,17 +7,20 @@
   -moz-border-radius: @radius;
   border-radius: @radius;
 }
+
 .box-shadow () {
   -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05),0 1px 0 #000;
   -moz-box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05),0 1px 0 #000;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05),0 1px 0 #000;
 }
+
 .scale (@factor) {
   -webkit-transform: scale(@factor);
 	-moz-transform: scale(@factor);
 	transform: scale(@factor);
 }
-.home-padding () {
+
+.general-padding () {
   padding: 0 20%;
   @media only screen and (max-width:1000px) {
     padding: 0 10%;
@@ -26,6 +29,11 @@
     padding:0;
   }
 }
+
+.wide-padding() {
+  padding: 16px 10% 10px;
+}
+
 .blimp-background () {
   background: #0085bc url(../images/blimp.png) no-repeat center 50px;
   @media only screen and (max-width:1000px) {
@@ -37,6 +45,18 @@
   @media only screen and (max-width:500px) {
     background-image: none;
   }
+}
+
+.paytone-font () {
+  font-family: 'Paytone One', sans-serif;
+}
+
+.signika-font () {
+  font-family: 'Signika', sans-serif;
+}
+
+.body-font () {
+  font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
 }
 
 /* Generic */
@@ -59,18 +79,7 @@ html, body {
 body {
   overflow-x: hidden;
   overflow-y: auto;
-  position: relative;
-}
-
-footer {
-  background: url(../images/bg.png) repeat-x -30px 10px;
-  color: #FFF;
-  bottom: 0;
-  font-size: small;
-  padding-top: 128px;
-  left: 0;
-  right: 0;
-  text-align: center;
+/*   position: relative; */
 }
 
 a {
@@ -79,11 +88,62 @@ a {
 
 h1 {
   color: #4162A8;
-  font-family: 'Paytone One', sans-serif;
-  font-size: 4em;
-  text-shadow: #fff -1px 1px, #fff -2px 2px, #fff -3px 3px;
-  position: relative;
-  z-index: 100;
+  .paytone-font();
+}
+h2, h3 {
+  color: #387370;
+  .paytone-font();
+  text-shadow: 0 1px 0 #FFF;  
+}
+h2 {
+  border-bottom: 1px dashed #FFF;
+  padding-bottom: .6em;
+}
+h3 {
+  color: #106360;
+}
+
+p {
+  .signika-font();
+}
+
+header {
+  background: rgba(255, 255, 255, 0.6);
+  border-bottom: 2px dashed #FFF;
+  margin: 0 0 2em;
+  overflow: hidden;
+  h1 {
+    float: left;
+    margin: 0;
+    font-size: 2.15em;
+    letter-spacing: -2px;
+    text-shadow: 0 1px 0 #FFF;
+    a {
+      color: #4162A8;
+      text-decoration: none;
+      &:hover {
+        color: #4162A8;
+      }
+    }
+  }
+}
+
+footer {
+  background: url(../images/bg.png) repeat-x -30px 10px;
+  color: #FFF;
+  bottom: 0;
+  .signika-font();
+  font-size: small;
+  height: 134px;
+  padding-top: 112px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  a {
+    color: #757575;
+    text-decoration: none;
+  }
 }
 
 button,
@@ -121,83 +181,101 @@ input[type="submit"] {
 
 /* Site style */
 
-.home {
-  header {
-    .home-padding();
-  }
-  footer {
-    background: #0085bc url(../images/bg.png) repeat-x -30px 10px;
-  }
-  #content {
-    padding: 80px 0 0;
+.general {
+  header.home {
+    background: none;
+    border: 0;
+    .general-padding();
+    margin: 80px 0 0;
+    position: relative;
+    
+    &:after {
+      background: url(../images/triangle.svg) repeat-x;
+      bottom: -12px;
+      content: '';
+      height: 20px;
+      left: 0;
+      position: absolute;
+      right: 0;
+    }
+    
     h1 {
       background: url(../images/nest.png) no-repeat 0 15px;
+      font-size: 4em;
+      text-shadow: #fff -1px 1px, #fff -2px 2px, #fff -3px 3px;
+      position: relative;
+      z-index: 100;
+      float: none;
+      font-size: 4em;
       height: 260px;
-      margin-top: 0;
+      margin: 0 auto 43px;
       padding-left: 350px;
     }
-    p {
-      font-family: 'Signika', sans-serif;
-    }
+    
     .go {
       padding-left: 350px;
       position: relative;
       top:-200px;
       z-index: 100;
     }
-    .feature-clouds {
-      .blimp-background();
-      box-shadow: 0 2px 2px 0 rgba(255, 255, 255, .8) inset;
-      clear: both;
-      .home-padding();
-      min-height: 730px;
-      overflow: hidden;
-      position: relative;
-      z-index: 1;
-      div {
-        /* Inspired by http://thecodeplayer.com/walkthrough/make-a-simple-cloud-in-css3 */
-        font-family: 'Signika', sans-serif;
-      	width: 300px;
-      	height: 100px;
-      	clear: left;
-      	float: left;
+  }
+  
+  footer {
+    background: #0085bc url(../images/bg.png) repeat-x -30px 10px;
+  }
+  
+
+  .feature-clouds {
+    .blimp-background();
+    clear: both;
+    .general-padding();
+    min-height: 730px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    div {
+      /* Inspired by http://thecodeplayer.com/walkthrough/make-a-simple-cloud-in-css3 */
+      .signika-font();
+    	width: 300px;
+    	height: 100px;
+    	clear: left;
+    	float: left;
+    	background: #FAFCFD;
+    	box-shadow: 0 3px 4px rgba(0, 0, 0, .3);
+    	padding: 24px 20px;
+    	.rounded-corners(100px);
+    	position: relative;
+    	margin: 120px auto 20px;
+    	opacity: .95;
+    	text-align: center;
+    	&:nth-child(2n) {
+      	clear: right;
+      	float: right;
+    	}
+      &:after,
+      &:before {
+      	content: '';
+      	position: absolute;
       	background: #FAFCFD;
-      	box-shadow: 0 3px 4px rgba(0, 0, 0, .3);
-      	padding: 24px 20px;
+      	z-index: -1;
+      }
+      &:after {
+      	height: 87px;
+      	left: 53px;
+      	top: -35px;
       	.rounded-corners(100px);
-      	position: relative;
-      	margin: 120px auto 20px;
-      	opacity: .95;
-      	text-align: center;
-      	&:nth-child(2n) {
-        	clear: right;
-        	float: right;
-      	}
-        &:after,
-        &:before {
-        	content: '';
-        	position: absolute;
-        	background: #FAFCFD;
-        	z-index: -1;
-        }
-        &:after {
-        	height: 87px;
-        	left: 53px;
-        	top: -35px;
-        	.rounded-corners(100px);
-        	width: 86px;
-        }
-        &:before {
-          height: 156px;
-        	right: 40px;
-        	top: -64px;
-        	.rounded-corners(200px);
-          width: 140px;
-        }
-        &:hover {
-          -webkit-animation: wiggle .2s linear;
-          -moz-animation: wiggle .2s linear;
-        }
+      	width: 86px;
+      }
+      &:before {
+        height: 156px;
+      	right: 40px;
+      	top: -64px;
+      	.rounded-corners(200px);
+        width: 140px;
+      }
+      &:hover {
+        -webkit-animation: wiggle .2s linear;
+        -moz-animation: wiggle .2s linear;
       }
     }
   }
@@ -224,7 +302,7 @@ input[type="submit"] {
                0px 12px 11px rgba(100, 100, 100, 0.25),
                0px 13px 15px rgba(100, 100, 100, 0.3);
   color: #fff;
-  font-family: 'Paytone One', sans-serif;
+  .paytone-font();
   padding: .6em .6em .6em 75px;
   text-align: center;
   text-shadow: 0px 1px 1px #1E2D4D;
@@ -253,22 +331,6 @@ input[type="submit"] {
   }
 }
 
-.user header {
-  background: rgba(255, 255, 255, 0.6);
-  border-bottom: 2px dashed #FFF;
-  margin: 0 0 2em;
-  overflow: hidden;
-  padding: 16px 10% 10px;
-  h1 {
-    color: #4162A8;
-    float: left;
-    margin: 0;
-    font-size: 2.15em;
-    letter-spacing: -2px;
-    text-shadow: 0 1px 0 #FFF;
-  }
-}
-
 #user {
   background: url(../images/bgpattern.png);
   box-shadow: 0 2px 3px rgba(0,0,0,.3);
@@ -281,7 +343,7 @@ input[type="submit"] {
   right: 10%;
   .rounded-corners(10px);
   text-align: right;
-  font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+  .body-font();
   a {
     color: #FFF;
     text-decoration: none;
@@ -363,8 +425,10 @@ input[type="submit"] {
   top: 0;
   z-index: 101;
 }
-.center {
+
+#app {
   margin: auto;
+  min-height: 69%;
   width: 50%;
   textarea {
     border: 1px solid #CCC;
@@ -383,9 +447,27 @@ input[type="submit"] {
   }
 }
 
-#app {
-  min-height: 400px;
+#content {
+  padding-bottom: 134px;
 }
+
+.contain {
+  min-height: 100%;
+  position: relative;
+}
+
+.center {
+  text-align: center;
+}
+
+.small {
+  font-size: small;
+}
+
+.wide {
+  .wide-padding();
+}
+
 .tweet {
   clear: both;
   margin: 20px 0;
@@ -527,7 +609,7 @@ input[type="submit"] {
 /* Responsiveness */
 
 @media only screen and (max-width:920px) {
-  .home #content .feature-clouds div {
+  .general #content .feature-clouds div {
     float: none;
     &:nth-child(2n) {
       float: none;
@@ -536,7 +618,7 @@ input[type="submit"] {
 }
 
 @media only screen and (max-width:816px) {
-  .home {
+  .general {
     #content {
       h1 {
         background-size: 195px 150px;
@@ -554,7 +636,7 @@ input[type="submit"] {
 }
 
 @media only screen and (max-width:660px) {
-  .home {
+  .general {
     #content {
       padding: 80px 0 0;
       text-align: center;
@@ -602,7 +684,7 @@ input[type="submit"] {
 }
 
 @media only screen and (max-width:400px) {
-  .home #content h1 {
+  .general #content h1 {
     font-size: 2.3em;
   }
   .user header h1 {

@@ -25,6 +25,13 @@ module.exports = {
       res.render('index');
     }
   },
+  
+  /*
+   * GET '/about' About page
+   */
+  about: function(req, res) {
+    res.render('about');
+  },
 
   /*
    * GET '/tweets' user's saved tweets.

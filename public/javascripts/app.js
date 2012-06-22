@@ -212,6 +212,7 @@ $(function() {
       stashed.add(this.empty, { silent: true });
       this.empty.on('sync', this.addNewEmpty, this);
       this.add(this.empty, null, null, true);
+      this.$('textarea')[0].focus();
     },
 
     add: function(model, index, all, prepend) {
