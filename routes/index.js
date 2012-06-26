@@ -16,9 +16,8 @@ module.exports = {
   index: function(req, res) {
     if (req.user) {
       res.render('user', {
-        layout: 'userLayout',
-        user: req.user,
-        view: fs.readFileSync(__dirname + '/../views/client/user.ejs')
+          layout: 'userLayout'
+        , user: req.user
       });
     }
     else {

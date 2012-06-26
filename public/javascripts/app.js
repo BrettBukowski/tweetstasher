@@ -101,6 +101,12 @@ $(function() {
   });
 
   var stashed = new Tweets;
+  
+  _.templateSettings = {
+      interpolate: /<\*=([\s\S]+?)\*>/g
+    , evaluate: /<\*([\s\S]+?)\*>/g
+    , escape: /<\*-([\s\S]+?)\*>/g
+  }
 
   var TweetView = Backbone.View.extend({
     tagName: 'div',
