@@ -8,6 +8,7 @@ var cradle = require('cradle')
 
 // Copies properies from provider onto receiver.
 // Also includes prototype properties.
+// Overwrites any existing properties.
 function mix(receiver, provider) {
   for (var prop in provider) {
     receiver[prop] = provider[prop];
@@ -49,7 +50,7 @@ function inherit(parent, props, statics) {
 
 function extend(props, staticProps) {
   var child = inherit(this, props, staticProps);
-  child.extend = this;
+  child.extend = extend;
   return child;
 }
 
@@ -57,13 +58,23 @@ function getDBConnection(modelName) {
   this.cached || (this.cached = {});
 
   var name = modelName.toLowerCase() + 's';
-  console.log('returning db connection for ' + name);
+/*   console.log('returning db connection for ' + name); */
+/*   console.log(new cradle().Connection().database); */
   return this.cached[name] || (this.cached[name] = (new cradle.Connection()).database(name));
 }
 
-function callable(callback, result) {
-  console.log('callback');
-  return typeof callback === 'function' && callback(result);
+function callable(callback, response, error) {
+  if (callback && (typeof callback.fulfill === 'function' || typeof callback.fail === 'function')) {
+    if (error) {
+      callback.fail(error);
+    }
+    else {
+      callback.fulfill(response);
+    }
+  }
+  else if (typeof callback === 'function') {
+    callback(response, error);
+  }
 }
 
 
@@ -96,23 +107,22 @@ var Model = extend({
     return this.props[key];
   },
 
-  save: function(callback, promise) {
+  save: function(callback) {
     if (!this.props._id) {
       // New
 
       // Timestamp the creation
       this.props.created = +new Date();
-      console.log('now:' + new Date().getMonth() + ' ' + new Date().getDate());
-      console.log('timestamp:' + this.props.created);
+
       var saved = this.props;
       this.db().save(saved, function(error, result) {
         if (error) {
           console.log('Error creating: ' + error);
-          if (promise) return promise.fail(error);
+          return callable(callback, null, error);
         }
 
         saved._id = result.id;
-        callable(callback, saved) || (promise && promise.fulfill(saved));
+        callable(callback, saved);
       });
     }
     else {
@@ -120,6 +130,7 @@ var Model = extend({
       this.db().merge(this.props._id, this.props, function(error, result) {
         if (error) {
           console.log('Error saving: ' + error);
+          return callable(callback, null, error);
         }
 
         callable(callback, result);
@@ -132,7 +143,8 @@ var Model = extend({
   destroy: function(callback) {
     this.db().remove(this.props._id, function(error, result) {
       if (error) {
-        console.log(error);
+        console.log('Error removing: ' + error);
+        return callable(callback, null, error);
       }
       callable(callback, result);
     });

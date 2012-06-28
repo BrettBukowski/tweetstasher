@@ -33,7 +33,7 @@ var User = Model.extend({ id: 'User' }, {
           , screenName:         userInfo.screen_name
           , twitterId:          userInfo.id_str
           , profilePic:         userInfo.profile_image_url
-      }).save(null, promise);
+      }).save(promise);
     });
   },
   
@@ -50,4 +50,5 @@ var User = Model.extend({ id: 'User' }, {
     });
   }
 });
+
 module.exports = User;
