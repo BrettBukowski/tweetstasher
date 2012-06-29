@@ -53,7 +53,8 @@ var Tweet = Model.extend({
         callback(
           // Get the actual values and return
           // tweets in newest to oldest order
-          docs.map(function(row) { return row }).reverse()
+          docs ? docs.map(function(row) { return row }).reverse() : null,
+          error
         );
       }
     });
@@ -63,7 +64,7 @@ var Tweet = Model.extend({
       if (error) {
         console.log(error);
       }
-      callback(new Tweet(result));
+      callback(new Tweet(result), error);
     });
   }
 });
