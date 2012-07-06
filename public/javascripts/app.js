@@ -6,6 +6,7 @@ $(function() {
     , { unit: 24, label: '%d day(s) ago' }
     , { unit:  7, label: '%d week(s) ago' }
     , { unit:  4, label: '%d month(s) ago' }
+    , { unit: 12 }
   ];
 
   // Makes a relative date out of the given timestamp or Date.

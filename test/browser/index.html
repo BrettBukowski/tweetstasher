@@ -1,0 +1,47 @@
+<html>
+<head>
+  <title>TweetStasher</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
+  <link rel="stylesheet" href="mocha.css">
+  <script src="javascripts/jquery-1.7.2.min.js"></script>
+  <script src="javascripts/underscore.js"></script>
+  <script src="javascripts/backbone.js"></script>
+  <script src="sinon-1.3.4.js"></script>
+  <script src="mocha.js"></script>
+  <script src="setup.js"></script>
+  <script src="/javascripts/app.js"></script>
+  <script src="app.js"></script>
+  <script>
+  onload = function() {
+    mocha.run();
+  }
+  </script>
+</head>
+<body>
+  <div id="mocha"></div>
+  <div id="app"></div>
+<script type="text/template" id="tweet-template">
+<div class="tweet">
+  <form method="post" action="/tweets">
+    <span class='created'><*= created *></span>
+    <* if (created) { *>
+    <a href='#' class='destroy icon-trash' title='Delete'></a>
+    <* } *>
+    <textarea name="tweet" rows="3" cols="40" placeholder="Draft a tweet"><*= text *></textarea>
+    <div class="container">
+      <div class="counter">140</div>
+      <div class="buttons">
+      <* if (created) { *>
+        <button class="stash">Stash it</button>
+        <button class="post">Tweet now</button>
+      <* } else { *>
+        <button disabled class="stash">Stash it</button>
+        <button disabled class="post">Tweet now</button>
+      <* } *>
+      </div>
+    </div>
+  </form>
+</div>
+</script>
+</body>
+</html>

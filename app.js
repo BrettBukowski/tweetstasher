@@ -50,8 +50,15 @@ app.configure('production', function() {
   app.use(less({ src: __dirname + '/public', once: true, compress: true }));
 });
 
+app.configure('test', function() {
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+  app.use(express.static(__dirname + '/test/browser'));
+  app.use(express.static(__dirname + '/node_modules/mocha'));
+  app.use(express.static(__dirname + '/node_modules/sinon'));
+});
+
 // Routes
-function requireUser(req, result, next) {
+function requireUser(req, res, next) {
   if (!req || !req.user) return res.send('Unauthorized', 401);
 
   next();
