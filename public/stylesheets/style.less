@@ -1,5 +1,5 @@
 @import "normalize.css";
-@import "font-awesome.less";
+@import "fonts.less";
 
 /* Mixins */
 .rounded-corners (@radius: 5px) {
@@ -658,11 +658,17 @@ input[type="submit"] {
       font-size: 1.5em;
     }
   }
+  #app {
+    width: 80%;
+  }
 }
 
 @media only screen and (max-width:700px) {
-  .center {
-    width: 80%;
+  #app {
+    width: auto;
+    textarea {
+      min-height: 86px;
+    }
   }
 }
 
@@ -695,5 +701,11 @@ input[type="submit"] {
   }
   .center {
     width: 90%;
+  }
+  .tweet {
+    .counter,
+    .created {
+      font-size: small;
+    }
   }
 }
