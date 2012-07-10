@@ -34,8 +34,14 @@
   padding: 16px 10% 10px;
 }
 
+@images: '../images';
+
 .blimp-background () {
-  background: #0085bc url(../images/blimp.png) no-repeat center 50px;
+  background: #0085bc url('@{images}/blimp.png') no-repeat center 50px;
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+    background-image: url('@{images}/blimp@2x.png');
+    background-size: 870px 730px;
+  }
   @media only screen and (max-width:1000px) {
     background-size: 600px 580px;
   }
@@ -45,6 +51,27 @@
   @media only screen and (max-width:500px) {
     background-image: none;
   }
+}
+.mt-background () {
+  background: url('@{images}/mountains.png') repeat-x -30px 10px;
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+    background-image: url('@{images}/mountains@2x.png');
+    background-size: 979px 134px;
+  }  
+}
+.nest-background () {
+  background: url('@{images}/nest.png') no-repeat 0 15px;
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+    background-image: url('@{images}/nest@2x.png');
+    background-size: 295px 250px;
+  }
+}
+.twitter-background () {
+  background: #56bf3d url('@{images}/whitetwitterbird.png') no-repeat 16px center;
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+    background-image: url('@{images}/whitetwitterbird@2x.png');
+    background-size: 48px 48px;
+  }  
 }
 
 .paytone-font () {
@@ -68,7 +95,7 @@
 }
 
 html {
-  background: url(../images/sky.png);
+  background: url('@{images}/sky.png');
 }
 
 html, body {
@@ -79,7 +106,6 @@ html, body {
 body {
   overflow-x: hidden;
   overflow-y: auto;
-/*   position: relative; */
 }
 
 a {
@@ -129,7 +155,7 @@ header {
 }
 
 footer {
-  background: url(../images/bg.png) repeat-x -30px 10px;
+  .mt-background();
   color: #FFF;
   bottom: 0;
   .signika-font();
@@ -190,7 +216,7 @@ input[type="submit"] {
     position: relative;
     
     &:after {
-      background: url(../images/triangle.svg) repeat-x;
+      background: url('@{images}/triangle.svg') repeat-x;
       bottom: -12px;
       content: '';
       height: 20px;
@@ -200,7 +226,7 @@ input[type="submit"] {
     }
     
     h1 {
-      background: url(../images/nest.png) no-repeat 0 15px;
+      .nest-background();
       font-size: 4em;
       text-shadow: #fff -1px 1px, #fff -2px 2px, #fff -3px 3px;
       position: relative;
@@ -221,7 +247,8 @@ input[type="submit"] {
   }
   
   footer {
-    background: #0085bc url(../images/bg.png) repeat-x -30px 10px;
+    .mt-background();
+    background-color: #0085BC;
   }
   
 
@@ -282,7 +309,7 @@ input[type="submit"] {
 }
 
 #start {
-  background: #56bf3d url(../images/whitetwitterbird.png) no-repeat 16px center;
+  .twitter-background();
   border-top: 1px solid #fff;
   border-right: 1px solid #ededed;
   border-bottom: 1px solid #ececec;
@@ -332,7 +359,7 @@ input[type="submit"] {
 }
 
 #user {
-  background: url(../images/bgpattern.png);
+  background: url('@{images}/bgpattern.png');
   box-shadow: 0 2px 3px rgba(0,0,0,.3);
   color: #FFF;
   height: 48px;
@@ -708,4 +735,8 @@ input[type="submit"] {
       font-size: small;
     }
   }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+
 }
