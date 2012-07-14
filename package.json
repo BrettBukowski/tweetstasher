@@ -7,7 +7,7 @@
     , "jade": "~0.0.1"
     , "less-middleware": "~0.1.4"
     , "ejs": "~0.7.1"
-    , "everyauth": "~0.2.32"
+    , "everyauth": "git://github.com/bnoguchi/everyauth.git"
     , "cradle": "~0.6.3"
     , "oauth-client": "~0.3.0"
     , "requirejs": "~2.0.4"
