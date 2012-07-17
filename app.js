@@ -30,8 +30,6 @@ var app = module.exports = express.createServer();
 
 app.configure(function() {
   app.use(express.bodyParser());
-  app.use(express.cookieParser());
-  app.use(express.session({ secret: config.session, cookie: { maxAge: 60 * 60 * 1000 }}));
   app.use(everyauth.middleware());
   app.use(app.router);
   app.set('views', __dirname + '/views');
@@ -41,11 +39,16 @@ app.configure(function() {
 });
 
 app.configure('development', function() {
+  app.use(express.cookieParser());
+  app.use(express.session({ secret: config.session, cookie: { maxAge: 60 * 60 * 1000 }}));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   app.use(less({ src: __dirname + '/public', force: true }));
 });
 
 app.configure('production', function() {
+  var RedisStore = require('connect-redis')(express);
+  app.use(express.cookieParser());
+  app.use(express.session({ store: new RedisStore(), secret: config.session, cookie: { maxAge: 60 * 60 * 1000 }}));
   app.use(express.errorHandler());
   app.use(less({ src: __dirname + '/public', once: true, compress: true }));
 });
