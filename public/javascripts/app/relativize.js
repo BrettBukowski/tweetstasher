@@ -1,4 +1,4 @@
-define(['underscore'], function(_) {
+define(['lib/underscore'], function(_) {
   var dateParts = [
       { unit: 60, label: '%d minute(s) ago' }
     , { unit: 60, label: '%d hour(s) ago' }

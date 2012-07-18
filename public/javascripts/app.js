@@ -1,21 +1,21 @@
 requirejs.config({
-    baseUrl: '/javascripts/lib'
-  , paths: { app: '../app' }
+    baseUrl: 'javascripts/lib'
+  , paths: { app: '../app', lib: '../lib' }
   , shim: {
-      jquery: {
+      'lib/jquery': {
         exports: '$'
       }
-    , underscore: {
+    , 'lib/underscore': {
         exports: '_'
     }
-    , backbone: {
-        deps: ['underscore', 'jquery']
+    , 'lib/backbone': {
+        deps: ['lib/underscore', 'lib/jquery']
       , exports: 'Backbone'
     }
   }
 });
 
-requirejs(['jquery', 'underscore', 'backbone', 'app/relativize', 'app/notice'], 
+requirejs(['lib/jquery', 'lib/underscore', 'lib/backbone', 'app/relativize', 'app/notice'], 
 function($, _, Backbone, relativeize, notice) {
 $(function() {
   var Tweet = Backbone.Model.extend({

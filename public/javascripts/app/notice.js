@@ -1,4 +1,4 @@
-define(['jquery'], function($) {
+define(['lib/jquery'], function($) {
   // Displays a notice with the given message.
   // When clicked, the notice is removed, otherwise
   // it removes itself after 9 seconds.
