@@ -131,7 +131,7 @@ $(function() {
       e.preventDefault();
       this.model.publish('text', this.input.val(), _.bind(function(model, response) {
         if (response.id) {
-          notify("<a href='https://twitter.com/" + response.user.screen_name + "/status/" + response.id_str + "' target='_blank'>Your tweet's been posted!</a>");
+          notice("<a href='https://twitter.com/" + response.user.screen_name + "/status/" + response.id_str + "' target='_blank'>Your tweet's been posted!</a>");
           this.model.destroy();
         }
       }, this));
