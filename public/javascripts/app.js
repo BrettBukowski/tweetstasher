@@ -1,7 +1,5 @@
 requirejs.config({
-    baseUrl: 'javascripts/lib'
-  , paths: { app: '../app', lib: '../lib' }
-  , shim: {
+  shim: {
       'lib/jquery': {
         exports: '$'
       }
