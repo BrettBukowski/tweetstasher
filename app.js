@@ -58,6 +58,13 @@ app.configure('test', function() {
   app.use(express.static(__dirname + '/node_modules/sinon'));
 });
 
+app.dynamicHelpers({
+  route: function(req, res) {
+    if (!req.route) return '404';
+    return (req.route.path === '/') ? 'home' : req.route.path.substr(1);
+  }
+});
+
 // Routes
 function requireUser(req, res, next) {
   if (!req || !req.user) return res.send('Unauthorized', 401);
@@ -73,6 +80,11 @@ app.post('/tweets/publish/:id', requireUser, routes.publish);
 app.post('/tweets/instaPublish', requireUser, routes.instaPublish);
 app.get('/signout', requireUser, routes.signout);
 app.get('/about', routes.about);
+
+// Errors
+app.use(function(req, res) {
+  res.render('404');
+});
 
 app.listen(4000, function() {
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
