@@ -29,10 +29,12 @@ var app = module.exports = express.createServer();
 
 // Configuration
 
+const MAX_AGE = 1000 * 60 * 60 * 24 * 365; // One year
+
 app.configure(function() {
   app.use(express.bodyParser());
   app.use(express.cookieParser());
-  app.use(express.session({ store: new RedisStore(), secret: config.session, cookie: { maxAge: 60 * 60 * 1000 }}));
+  app.use(express.session({ store: new RedisStore(), secret: config.session, cookie: { maxAge: MAX_AGE }}));
   app.use(everyauth.middleware());
   app.use(app.router);
   app.set('views', __dirname + '/views');
@@ -68,6 +70,9 @@ app.dynamicHelpers({
 // Routes
 function requireUser(req, res, next) {
   if (!req || !req.user) return res.send('Unauthorized', 401);
+
+  // Extend the session expiration
+  req.session.cookie.maxAge = MAX_AGE;
 
   next();
 }
