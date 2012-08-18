@@ -8,7 +8,7 @@ describe('Functional routes testing', function() {
 
   describe('Home page', function() {
     it('Should render home page w/ sign up button', function(done) {
-      browser.visit('http://localhost:3000/', function() {
+      browser.visit('http://localhost:4000/', function() {
         assert.ok(browser.query('#start'));
         done(); 
       })
@@ -17,7 +17,7 @@ describe('Functional routes testing', function() {
 
   describe('About page', function() {
     it('Should render about page', function(done) {
-      browser.visit('http://localhost:3000/about', function() {
+      browser.visit('http://localhost:4000/about', function() {
         assert.equal(browser.text('h2'), 'About This Site');
         done(); 
       })
@@ -26,7 +26,7 @@ describe('Functional routes testing', function() {
   
   describe('Sign in', function() {
     it('Should redirect to Twitter', function(done) {
-      browser.visit('http://localhost:3000/', function() {
+      browser.visit('http://localhost:4000/', function() {
         browser.pressButton('Start Stashing!', function() {
           assert.equal(browser.location.pathname, '/oauth/authenticate');
           done();

@@ -87,6 +87,7 @@ $(function() {
       _.bindAll(this, 'render', 'save', 'post', 'remove', 'updateCounter');
 
       this.model.bind('change', this.render);
+      this.model.bind('change', this.updateCounter);
       this.model.bind('destroy', this.remove);
     },
 

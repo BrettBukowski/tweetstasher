@@ -1,5 +1,5 @@
 $(function() {
-  var serverRequests = 0;
+  var serverRequests = 1; // RequireJS
   
   function keyUp(el) {
     el.trigger($.Event('keyup', { keyCode: 72 }));
@@ -12,7 +12,7 @@ $(function() {
   describe('Initialization', function() {
     it('Makes initial request for all tweets', function() {
       assert.equal(server.requests.length, ++serverRequests);
-      var initialRequest = server.requests[0];
+      var initialRequest = server.requests[serverRequests - 1];
       assert.equal(initialRequest.method, 'GET');
       assert.equal(initialRequest.url, '/tweets');
     })
@@ -29,21 +29,20 @@ $(function() {
   })
   
   describe('Client app behavior', function() {
-    var counter = $('.counter')
-      , textarea = $('textarea');
-
-    afterEach(function() {
-      textarea.val('');
-    })
-
     describe('Character counter', function() {
       it('Decrements characters on keyup', function() {
+        var counter = $('.counter').first()
+          , textarea = $('textarea').first();
+
         textarea.val('hey');
         keyUp(textarea);
         assert.equal(counter.html(), '137');
       })
       
       it('Accounts for links', function() {
+        var counter = $('.counter').first()
+          , textarea = $('textarea').first();
+
         textarea.val('www.google.com');
         keyUp(textarea);
         assert.equal(counter.html(), '120');
@@ -56,14 +55,21 @@ $(function() {
 
     describe('Buttons', function() {
       it('Disables buttons when there\'s no text', function() {
+        var button = $('button').first()
+          , textarea = $('textarea').first();
+
+        textarea.val('');
         keyUp(textarea);
-        assert($('button').attr('disabled'));        
+        assert(button.attr('disabled'));        
       })
 
       it('Un-disables buttons when there\'s text', function() {
+        var button = $('button').first()
+          , textarea = $('textarea').first();
+
         textarea.val(' ');
         keyUp(textarea);
-        assert(!$('button').attr('disabled'));        
+        assert(!button.attr('disabled'));        
       })
     })
   })
@@ -83,6 +89,7 @@ $(function() {
           assert.equal($($('textarea')[1]).val(), textarea.val());
           assert.equal('Draft', textarea.val());
           assert.equal($($('.created')[1]).html(), 'moments ago');
+          assert.equal($($('.counter')[1]).html(), 140 - textarea.val().length);
           done();
         }, 100);
       })
@@ -100,6 +107,7 @@ $(function() {
           assert.equal(server.requests.length, ++serverRequests);
           assert.equal($('textarea').last().val(), textarea.val());
           assert.equal($('.created').last().html(), created.html());
+          assert.equal($('.counter').last().html(), 140 - textarea.val().length);
           done();
         }, 100);
       })
