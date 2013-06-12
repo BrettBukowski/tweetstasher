@@ -8,7 +8,7 @@ var Model = require('./base.js')
 
 var urls = {
     base: 'api.twitter.com'
-  , publish: '/1/statuses/update.json'
+  , publish: '/1.1/statuses/update.json'
 };
 
 var Tweet = Model.extend({
