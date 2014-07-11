@@ -1,5 +1,8 @@
 # Tweetstasher
 
+![](http://i.imgur.com/pEq8evk.png)
+
+
 Website used to save drafts of tweets and post them to Twitter later.
 
 Node.js app using CouchDB as the datastore and Redis as the session store.
