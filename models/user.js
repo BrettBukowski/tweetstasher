@@ -15,35 +15,32 @@ function storeUserInSession(req, user) {
 
 var User = Model.extend({ id: 'User' }, {
   findOrCreate: function(userInfo, accessToken, accessTokenSecret, promise) {
-    (new User).view('twitterId', userInfo.id_str, function(error, docs) {
+    (new User()).view('twitterId', userInfo.id_str, function(error, docs) {
       if (error) {
         console.log(error);
         return promise.fail(error);
       }
-      if (docs.length === 1) {
-        // Existing user
-        var user = docs[0].value;
-        return promise.fulfill(docs[0].value);
-      }
-      // New user
-      new User({
-            accessToken:        accessToken
-          , accessTokenSecret:  accessTokenSecret
-          , name:               userInfo.name
-          , screenName:         userInfo.screen_name
-          , twitterId:          userInfo.id_str
-          , profilePic:         userInfo.profile_image_url
+
+      var user = new User(docs.length == 1 ? docs[0].value : {});
+
+      user.set({
+        accessToken:        accessToken,
+        accessTokenSecret:  accessTokenSecret,
+        name:               userInfo.name,
+        screenName:         userInfo.screen_name,
+        twitterId:          userInfo.id_str,
+        profilePic:         userInfo.profile_image_url,
       }).save(promise);
     });
   },
-  
+
   findById: function(req, userId, callback) {
     var user = getUserFromSession(req, userId);
     if (user) {
       return callback(null, user);
     }
 
-    (new User).view('userId', userId, function(error, doc) {
+    (new User()).view('userId', userId, function(error, doc) {
       var user = (doc.length === 1) ? doc[0].value : {};
       storeUserInSession(req, user);
       callback(error, user);
