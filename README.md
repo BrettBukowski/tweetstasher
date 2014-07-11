@@ -1,6 +1,6 @@
 # Tweetstasher
 
-[![Build Status](https://travis-ci.org/BrettBukowski/tweetstasher.svg?branch=master)](https://travis-ci.org/BrettBukowski/tweetstasher)
+[![Build Status](https://travis-ci.org/BrettBukowski/tweetstasher.svg?branch=master)](https://travis-ci.org/BrettBukowski/tweetstasher) [![Code Climate](https://codeclimate.com/github/BrettBukowski/tweetstasher.png)](https://codeclimate.com/github/BrettBukowski/tweetstasher)
 
 ![](http://i.imgur.com/pEq8evk.png)
 
