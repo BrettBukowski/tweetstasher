@@ -1,7 +1,8 @@
 # Tweetstasher
 
-![](http://i.imgur.com/pEq8evk.png)
+[![Build Status](https://travis-ci.org/BrettBukowski/tweetstasher.svg?branch=master)](https://travis-ci.org/BrettBukowski/tweetstasher)
 
+![](http://i.imgur.com/pEq8evk.png)
 
 Website used to save drafts of tweets and post them to Twitter later.
 
