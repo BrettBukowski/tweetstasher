@@ -1,20 +1,16 @@
-
-/**
- * Module dependencies.
- */
- var express = require('express')
-  , routes = require('./routes')
-  , less = require('less-middleware')
-  , everyauth = require('everyauth')
-  , RedisStore = require('connect-redis')(express)
-  , User = require('./models/user.js');
+var express = require('express'),
+    routes = require('./routes'),
+    less = require('less-middleware'),
+    everyauth = require('everyauth'),
+    RedisStore = require('connect-redis')(express),
+    User = require('./models/user.js'),
+    config = require('./config/keys.js');
 
 // Everyauth setup
 
 everyauth.everymodule.userPkey('_id');
 everyauth.everymodule.findUserById(User.findById);
 
-var config = require('./config/keys.js');
 everyauth.twitter
   .consumerKey(config.twitter.consumerKey)
   .consumerSecret(config.twitter.consumerSecret)
@@ -61,7 +57,7 @@ app.configure('test', function() {
 });
 
 app.dynamicHelpers({
-  route: function(req, res) {
+  route: function(req) {
     if (!req.route) return '404';
     return (req.route.path === '/') ? 'home' : req.route.path.substr(1);
   }
