@@ -4,4 +4,5 @@ node_js:
   - "0.10"
   - "0.8"
 before_script:
-  - echo "module.exports={twitter:{consumerKey:'',consumerSecret:''}}" > config/keys.js
+  - mkdir config
+  - echo "module.exports={twitter:{consumerKey:'',consumerSecret:''}}" > ./config/keys.js
