@@ -10,6 +10,12 @@
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, .05), 0 1px 0 #000;
 }
 
+.transition (@prop, @duration) {
+  -webkit-transition: @prop @duration ease;
+  -moz-transition: @prop @duration ease;
+  transition: @prop @duration ease;
+}
+
 .scale (@factor) {
   -webkit-transform: scale(@factor);
   -moz-transform: scale(@factor);
@@ -324,8 +330,7 @@ input[type="submit"] {
   padding: .6em .6em .6em 75px;
   text-align: center;
   text-shadow: 0px 1px 1px #1E2D4D;
-  -webkit-transition: box-shadow .6s ease;
-  -moz-transition: box-shadow .6s ease;
+  .transition(box-shadow, .6s);
   font-size: 2em;
   .rounded-corners(4px);
   &:hover,
@@ -401,7 +406,7 @@ input[type="submit"] {
         padding: .8em;
         position: absolute;
         right: 10000px;
-        -webkit-transition: all .6s ease;
+        .transition(all, .6s);
         .rounded-corners(4px);
         &:focus {
           opacity: 1;
@@ -428,9 +433,7 @@ input[type="submit"] {
 
 #notice {
   background: #fde073;
-  -moz-box-shadow:    0 0 5px black;
-  -webkit-box-shadow: 0 0 5px black;
-  box-shadow:         0 0 5px black;
+  box-shadow: 0 0 5px #000;
   cursor: pointer;
   left: 0;
   line-height: 2.5;
